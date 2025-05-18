@@ -1,7 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
- 
+#include <algorithm>
+
 using namespace std;
  
 void afisareMeniu() {
@@ -20,6 +21,10 @@ void afisareMeniu() {
     cout << "|| 2) Rescrie un tunel existent                                                ||" << endl;
     cout << "|| 3) Inscrie depozitul in format txt                                          ||" << endl;
     cout << "|| 4) Randul cu numarul maximal de zone ocupate                                ||" << endl;
+    cout << "|| 5) Afiseaza coloanele sortate crescator dupa numarul de zone ocupate        ||" << endl;
+    cout << "|| 6) Adresele zonelor fara vecini ocupati                                     ||" << endl;
+    cout << "|| 7) Zona cu locuri libere in perimetru                                       ||" << endl;
+    cout << "|| 8) Problema propusa                                                         ||" << endl;
     cout << "||=============================================================================||" << endl;
     cout << endl;
 }
@@ -194,20 +199,111 @@ void afisareCrescatorColoane(vector<vector<int>> depozit) {
     for(int i = 1; i < coloane.size(); i++) {
         int key = coloane[i];
         int j = i-1;
-        while(j >= 0 && coloanaZoneOcupate(depozit, coloane[j]) < coloanaZoneOcupate(depozit, key)) {
+        while(j >= 0 && coloanaZoneOcupate(depozit, coloane[j]) > coloanaZoneOcupate(depozit, key)) {
             coloane[j+1] = coloane[j];
             j--;
         }
         coloane[j+1] = key;
     }
-    cout << "Coloanele sortate crescator dupa numarul de zone ocupate sunt: ";
+    cout << "Coloanele sortate crescator dupa numarul de zone ocupate sunt: " << endl;
     for(int i = 0;i<depozit.size();i++) {
         for(int j = 0;j<coloane.size();j++) {
-            cout << depozit[i][j] << " ";
+            cout << depozit[i][coloane[j]] << " ";
         }
         cout << endl;
     }
     cout << endl;
+}
+
+void zoneFaraVeciniOcupati(vector<vector<int>> depozitCopie, vector<vector<int>> &depozit) {
+    for(int i = 0;i<depozit.size();i++) {
+        for(int j = 0;j<depozit[i].size();j++) {
+            if(depozit[i][j] == 1) {
+                if(i > 0) {
+                    depozitCopie[i-1][j] = 1;
+                }
+                if(i < depozit.size()-1) {
+                    depozitCopie[i+1][j] = 1;
+                }
+                if(j > 0) {
+                    depozitCopie[i][j-1] = 1;
+                }
+                if(j < depozit[i].size()-1) {
+                    depozitCopie[i][j+1] = 1;
+                }
+            }
+        }
+    }
+
+    cout << "Adresele zonelor fara vecini ocupati sunt: " << endl;
+    for(int i = 0;i<depozit.size();i++) {
+        for(int j = 0;j<depozit[i].size();j++) {
+            if(depozitCopie[i][j] == 0) {
+                cout << "Randul: " << i+1 << "; Coloana: " << j+1 << endl;
+            }
+        }
+    }
+    cout << endl;
+}
+
+void maxDreptunghi(vector<vector<int>> depozit)
+{
+    int n = depozit.size();
+    int m = depozit[0].size();
+
+    int maxArie = 0;
+    int xSus, ySus, xJos, yJos;
+
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < m; ++j)
+        {
+            if (depozit[i][j] == 0)
+            {
+                int x = j;
+                int y = i;
+                while (x < m && depozit[i][x] == 0)
+                    x++;
+                while (y < n && depozit[y][j] == 0)
+                    y++;
+
+                // Verificăm dacă zona are doar 0 pe perimetru
+                bool valid = true;
+                for (int k = j; k < x; ++k)
+                {
+                    if (depozit[i][k] != 0 || depozit[y - 1][k] != 0)
+                    {
+                        valid = false;
+                        break;
+                    }
+                }
+                for (int k = i; k < y; ++k)
+                {
+                    if (depozit[k][j] != 0 || depozit[k][x - 1] != 0)
+                    {
+                        valid = false;
+                        break;
+                    }
+                }
+
+                if (valid)
+                {
+                    int arie = (x - j) * (y - i);
+                    if (arie > maxArie)
+                    {
+                        maxArie = arie;
+                        xSus = j;
+                        ySus = i;
+                        xJos = x;
+                        yJos = y;
+                    }
+                }
+            }
+        }
+    }
+
+    std::cout << "Aria maximă: " << maxArie << std::endl;
+    std::cout << "Coordonatele punctelor: (" << xSus+1 << ", " << ySus+1 << "), (" << xJos << ", " << yJos << ")" << std::endl;
 }
 
 int main() {
@@ -244,10 +340,20 @@ int main() {
             case 4:
                 maxRand(depozit);
                 break;
+            case 5:
+                afisareCrescatorColoane(depozit);
+                break;            
+            case 6:
+                zoneFaraVeciniOcupati(depozit, depozit);
+                break;
+            case 7:
+                maxDreptunghi(depozit);
+                break;
             default:
                 cout << "Optiune invalida!" << endl;
         }
         cout << "Apasati enter pentru a continua..." << endl;
+        getchar();
         getchar();
         system("cls");
     }
