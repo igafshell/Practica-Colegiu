@@ -86,15 +86,11 @@ void rescrieTunel(vector<vector<int>> &depozit) {
         cin >> tip;
     }
     if(tip == "coloana") {
-        for(int i = 0;i<depozit.size();i++) {
-            for(int j = 0;j<depozit[0].size();j++) {
-                cout << depozit[i][j] << " ";
-            }
-            cout << endl;
-        }
+        afiseazaDepozit(depozit);
         cout << "Introdu indicele coloanei(max. indice " << depozit[0].size()-1 << "): ";
     } else if (tip == "rand") {
-       cout << "Introdu indicele randului(max. indice " << depozit.size()-1 << "): ";
+        afiseazaDepozit(depozit);
+        cout << "Introdu indicele randului(max. indice " << depozit.size()-1 << "): ";
     }
  
     int idx;
@@ -306,6 +302,175 @@ void maxDreptunghi(vector<vector<int>> depozit)
     std::cout << "Coordonatele punctelor: (" << xSus+1 << ", " << ySus+1 << "), (" << xJos << ", " << yJos << ")" << std::endl;
 }
 
+vector<vector<int>> bfs(vector<vector<int>> depozit, int a, int b, int c, int d, vector<vector<int>> drum, vector<vector<bool>> vizitat) {
+    vizitat[a][b] = true;
+
+    if(a == c && b == d) {
+        return drum;
+    }
+
+    vector<vector<int>> stanga;
+    vector<vector<int>> dreapta;
+    vector<vector<int>> sus;
+    vector<vector<int>> jos;
+
+
+    if(a > 0 && !vizitat[a-1][b] && depozit[a-1][b] == 0) {
+        drum.push_back({a-1, b});
+        stanga = bfs(depozit, a-1, b, c, d, drum, vizitat);
+        drum.pop_back();
+    }
+    if(b > 0 && !vizitat[a][b-1] && depozit[a][b-1] == 0) {
+        drum.push_back({a, b-1});
+        sus = bfs(depozit, a, b-1, c, d, drum, vizitat);
+        drum.pop_back();
+    }
+    if(a < depozit.size()-1 && !vizitat[a+1][b] && depozit[a+1][b] == 0) {
+        drum.push_back({a+1, b});
+        dreapta = bfs(depozit, a+1, b, c, d, drum, vizitat);
+        drum.pop_back();
+    }
+    if(b < depozit[0].size()-1 && !vizitat[a][b+1] && depozit[a][b+1] == 0) {
+        drum.push_back({a, b+1});
+        jos = bfs(depozit, a, b+1, c, d, drum, vizitat);
+        drum.pop_back();
+    }
+
+    /*
+        stanga - 0
+        dreapta - 1
+        sus - 2
+        jos - 3
+    */
+
+    vector<string> posibile = {"stanga", "dreapta", "sus", "jos"};    
+    for(int i = 0;i<posibile.size();i++) {
+        if(posibile[i] == "stanga" && stanga.back()[0] == c && stanga.back()[1] == d) 
+        {
+            posibile.erase(posibile.begin() + i);
+        }
+        else if (posibile[i] == "dreapta" && dreapta.back()[0] == c && stanga.back()[1] == d) 
+        {
+            posibile.erase(posibile.begin() + i);
+        }
+        else if (posibile[i] == "sus" && sus.back()[0] == c && stanga.back()[1] == d)
+        {
+            posibile.erase(posibile.begin() + i);
+        }
+        else if (posibile[i] == "jos" && jos.back()[0] == c && stanga.back()[1] == d)
+        {
+            posibile.erase(posibile.begin() + i);
+        }
+    }
+
+    if(posibile.size() == 0) {
+        return drum;
+    }
+
+    int min_ = 1000000000;
+    string minidx;
+    for(int i = 0;i<posibile.size();i++) {
+        if(posibile[i] == "stanga") {
+            if(stanga.size() < min_) {
+                min_ = stanga.size();
+                minidx = "stanga";
+            }
+        } else if(posibile[i] == "dreapta") {
+            if(dreapta.size() < min_) {
+                min_ = dreapta.size();
+                minidx = "dreapta";
+            }
+        } else if(posibile[i] == "sus") {
+            if(sus.size() < min_) {
+                min_ = sus.size();
+                minidx = "sus";
+            }
+        } else if(posibile[i] == "jos") {
+            if(jos.size() < min_) {
+                min_ = jos.size();
+                minidx = "jos";
+            }
+        }
+    }
+
+    if(minidx == "stanga") {
+        return stanga;
+    } else if(minidx == "dreapta") {
+        return dreapta;
+    } else if(minidx == "sus") {
+        return sus;
+    } else if(minidx == "jos") {
+        return jos;
+    }
+
+    return drum;
+}
+
+
+void problemaPropusa(vector<vector<int>> depozit) {
+    cout << "Reprezentarea initiala a depozitului este: " << endl;
+    afiseazaDepozit(depozit);
+    cout << endl;
+
+    int a, b, c, d;
+
+    cout << "Introduceti coordonatele pozitiei initiale(pozitia initiala obligator este un spatiu liber):" << endl;
+    while(true) {
+        a = inputInt() - 1;
+        b = inputInt() - 1;
+
+        if (a < 0 || b < 0 || a >= depozit.size() || b >= depozit[0].size())
+        {
+            cout << "Pozitia finala trebuie sa fie in depozit(1-" << depozit.size() << ", 0-" << depozit[0].size() << ")! Reintroduceti coordonatele: " << endl;
+            continue;
+        }
+        if(depozit[a][b] == 1) {
+            cout << "Pozitia introdusa este ocupata! Reintroduceti coordonatele: " << endl;
+            continue;
+        }
+        break;
+    }
+
+    cout << "Introduceti coordonatele pozitiei finale(pozitia initiala obligator este un spatiu liber):" << endl;
+    while (true)
+    {
+        c = inputInt() - 1;
+        d = inputInt() - 1;
+
+        if(c < 0 || d < 0 || c >= depozit.size() || d >= depozit[0].size()) 
+        {
+            cout << "Pozitia finala trebuie sa fie in depozit(1-" << depozit.size() << ", 1-" <<  depozit[0].size() << ")! Reintroduceti coordonatele: " << endl;
+            continue;
+        } 
+        else if (depozit[c][d] == 1)
+        {
+            cout << "Pozitia introdusa este ocupata! Reintroduceti coordonatele: " << endl;
+            continue;
+        } 
+        else if(a >= c && b >= d) 
+        {
+            cout << "Pozitia finala trebuie sa fie mai la stanga si mai jos de pozitia initiala! Reintroduceti coordonatele: " << endl;
+            continue;
+        }
+        break;
+    }
+    vector<vector<int>> drum;
+    drum.push_back({a,b});
+    vector<vector<bool>> vizitat(depozit.size(), vector<bool>(depozit[0].size(), false));
+    vector<vector<int>> rezultat = bfs(depozit, a, b, c, d, drum, vizitat);
+
+    if(rezultat.back()[0] == c && rezultat.back()[1] == d) {
+        cout << "Lungimea drumului minim este: " << rezultat.size() << endl;
+        cout << "Coordonatele drumului sunt: " << endl;
+        for(int i =0;i<rezultat.size();i++) {
+            cout << rezultat[i][0] + 1 << " " << rezultat[i][1] + 1 << endl;
+        }
+    } else {
+        cout << "Nu se poate ajunge din pozitia initiala la pozitia finala!" << endl;
+    }
+}
+
+
 int main() {
     ifstream fin("./Depozit.in");
     int n, m, k;
@@ -348,6 +513,9 @@ int main() {
                 break;
             case 7:
                 maxDreptunghi(depozit);
+                break;
+            case 8:
+                problemaPropusa(depozit);
                 break;
             default:
                 cout << "Optiune invalida!" << endl;
