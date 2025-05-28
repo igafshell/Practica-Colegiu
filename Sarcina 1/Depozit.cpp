@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <queue>
+#include <utility>
 #include <algorithm>
 
 using namespace std;
@@ -41,7 +43,7 @@ int inputInt()
     return x;
 }
  
-void afiseazaDepozit(vector<vector<int>> depozit) {
+void afiseazaDepozit(const vector<vector<int>> &depozit) {
     for(int i = 0; i < depozit.size(); i++) {
         for(int j = 0; j < depozit[i].size(); j++) {
             cout << depozit[i][j] << " ";
@@ -145,7 +147,7 @@ void rescrieTunel(vector<vector<int>> &depozit) {
     cout << endl << "Depozitul a fost modificat cu succes!" << endl;
 }
  
-void inscrieDepozit(vector<vector<int>> depozit) {
+void inscrieDepozit(const vector<vector<int>> &depozit) {
     ofstream fout("./Binar.txt");
     for(int i = 0; i < depozit.size(); i++) {
         for(int j = 0; j < depozit[i].size(); j++) {
@@ -302,110 +304,57 @@ void maxDreptunghi(vector<vector<int>> depozit)
     std::cout << "Coordonatele punctelor: (" << xSus+1 << ", " << ySus+1 << "), (" << xJos << ", " << yJos << ")" << std::endl;
 }
 
-vector<vector<int>> bfs(vector<vector<int>> depozit, int a, int b, int c, int d, vector<vector<int>> drum, vector<vector<bool>> vizitat) {
-    vizitat[a][b] = true;
+vector<vector<int>> bfs(vector<vector<int>> &depozit, int a, int b, int c, int d)
+{
+    int n = depozit.size();
+    int m = depozit[0].size();
 
-    if(a == c && b == d) {
-        return drum;
-    }
+    vector<vector<bool>> vizitate(n, vector<bool>(m, false));
+    vector<vector<pair<int, int>>> parent(n, vector<pair<int, int>>(m, {-1, -1}));
 
-    vector<vector<int>> stanga;
-    vector<vector<int>> dreapta;
-    vector<vector<int>> sus;
-    vector<vector<int>> jos;
+    queue<pair<int, int>> q;
+    q.push({a, b});
+    vizitate[a][b] = true;
 
+    int dr[] = {-1, 1, 0, 0}; // Directii: sus, jos, stanga, dreapta
+    int dc[] = {0, 0, -1, 1};
 
-    if(a > 0 && !vizitat[a-1][b] && depozit[a-1][b] == 0) {
-        drum.push_back({a-1, b});
-        stanga = bfs(depozit, a-1, b, c, d, drum, vizitat);
-        drum.pop_back();
-    }
-    if(b > 0 && !vizitat[a][b-1] && depozit[a][b-1] == 0) {
-        drum.push_back({a, b-1});
-        sus = bfs(depozit, a, b-1, c, d, drum, vizitat);
-        drum.pop_back();
-    }
-    if(a < depozit.size()-1 && !vizitat[a+1][b] && depozit[a+1][b] == 0) {
-        drum.push_back({a+1, b});
-        dreapta = bfs(depozit, a+1, b, c, d, drum, vizitat);
-        drum.pop_back();
-    }
-    if(b < depozit[0].size()-1 && !vizitat[a][b+1] && depozit[a][b+1] == 0) {
-        drum.push_back({a, b+1});
-        jos = bfs(depozit, a, b+1, c, d, drum, vizitat);
-        drum.pop_back();
-    }
+    while (!q.empty())
+    {
+        pair<int, int> coada = q.front();
+        q.pop();
 
-    /*
-        stanga - 0
-        dreapta - 1
-        sus - 2
-        jos - 3
-    */
+        if (coada.first == c && coada.second == d)
+            break; // A ajuns la destinatie
 
-    vector<string> posibile = {"stanga", "dreapta", "sus", "jos"};    
-    for(int i = 0;i<posibile.size();i++) {
-        if(posibile[i] == "stanga" && stanga.back()[0] == c && stanga.back()[1] == d) 
+        for (int i = 0; i < 4; i++)
         {
-            posibile.erase(posibile.begin() + i);
-        }
-        else if (posibile[i] == "dreapta" && dreapta.back()[0] == c && stanga.back()[1] == d) 
-        {
-            posibile.erase(posibile.begin() + i);
-        }
-        else if (posibile[i] == "sus" && sus.back()[0] == c && stanga.back()[1] == d)
-        {
-            posibile.erase(posibile.begin() + i);
-        }
-        else if (posibile[i] == "jos" && jos.back()[0] == c && stanga.back()[1] == d)
-        {
-            posibile.erase(posibile.begin() + i);
-        }
-    }
+            int x = coada.first + dr[i];
+            int y = coada.second + dc[i];
 
-    if(posibile.size() == 0) {
-        return drum;
-    }
-
-    int min_ = 1000000000;
-    string minidx;
-    for(int i = 0;i<posibile.size();i++) {
-        if(posibile[i] == "stanga") {
-            if(stanga.size() < min_) {
-                min_ = stanga.size();
-                minidx = "stanga";
-            }
-        } else if(posibile[i] == "dreapta") {
-            if(dreapta.size() < min_) {
-                min_ = dreapta.size();
-                minidx = "dreapta";
-            }
-        } else if(posibile[i] == "sus") {
-            if(sus.size() < min_) {
-                min_ = sus.size();
-                minidx = "sus";
-            }
-        } else if(posibile[i] == "jos") {
-            if(jos.size() < min_) {
-                min_ = jos.size();
-                minidx = "jos";
+            if (x >= 0 && y >= 0 && x < n && y < m && !vizitate[x][y] && depozit[x][y] == 0)
+            {
+                vizitate[x][y] = true;
+                parent[x][y] = {coada.first, coada.second};
+                q.push({x, y});
             }
         }
     }
 
-    if(minidx == "stanga") {
-        return stanga;
-    } else if(minidx == "dreapta") {
-        return dreapta;
-    } else if(minidx == "sus") {
-        return sus;
-    } else if(minidx == "jos") {
-        return jos;
-    }
+    vector<vector<int>> path;
+    if (!vizitate[c][d])
+        return path; 
 
-    return drum;
+    int x = c, y = d;
+    while (x != -1 && y != -1)
+    {
+        path.push_back({x, y});
+        pair<int, int> parentCoord = parent[x][y];
+        x = parentCoord.first, y = parentCoord.second;
+    }
+    reverse(path.begin(), path.end());
+    return path;
 }
-
 
 void problemaPropusa(vector<vector<int>> depozit) {
     cout << "Reprezentarea initiala a depozitului este: " << endl;
@@ -446,24 +395,28 @@ void problemaPropusa(vector<vector<int>> depozit) {
         {
             cout << "Pozitia introdusa este ocupata! Reintroduceti coordonatele: " << endl;
             continue;
-        } 
-        else if(a >= c && b >= d) 
-        {
-            cout << "Pozitia finala trebuie sa fie mai la stanga si mai jos de pozitia initiala! Reintroduceti coordonatele: " << endl;
+        } else if(a == c && b == d) {
+            cout << "Pozitiile introduse sunt identice! Reintroduceti coordonatele: " << endl;
             continue;
         }
         break;
     }
-    vector<vector<int>> drum;
-    drum.push_back({a,b});
-    vector<vector<bool>> vizitat(depozit.size(), vector<bool>(depozit[0].size(), false));
-    vector<vector<int>> rezultat = bfs(depozit, a, b, c, d, drum, vizitat);
 
-    if(rezultat.back()[0] == c && rezultat.back()[1] == d) {
+    vector<vector<int>> rezultat = bfs(depozit, a, b, c, d);
+
+    if(!rezultat.empty() && rezultat.back()[0] == c && rezultat.back()[1] == d) {
         cout << "Lungimea drumului minim este: " << rezultat.size() << endl;
         cout << "Coordonatele drumului sunt: " << endl;
-        for(int i =0;i<rezultat.size();i++) {
+        for(int i = 0;i<rezultat.size();i++) {
             cout << rezultat[i][0] + 1 << " " << rezultat[i][1] + 1 << endl;
+        }
+        cout << "Rezultatul a fost exportat in fisierul \"Depozit.out!\"" << endl << endl;
+
+        ofstream fout("./Depozit.out");
+        fout << rezultat.size() << endl;
+        for (int i = 0; i < rezultat.size(); i++)
+        {
+            fout << rezultat[i][0] + 1 << " " << rezultat[i][1] + 1 << endl;
         }
     } else {
         cout << "Nu se poate ajunge din pozitia initiala la pozitia finala!" << endl;
@@ -473,6 +426,11 @@ void problemaPropusa(vector<vector<int>> depozit) {
 
 int main() {
     ifstream fin("./Depozit.in");
+    if(!fin) {
+        cout << "Eroare la deschiderea fisierului!" << endl;
+        return 0;
+    }   
+
     int n, m, k;
     fin >> n >> m >> k;
 
