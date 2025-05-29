@@ -1017,7 +1017,7 @@ class SistemTrolleybooks {
 }
 
 // Clasa principala
-public class ProgramTrolleybooks {
+public class TrolleybooksConsola {
     public static void main(String[] args) {
         SistemTrolleybooks sistem = new SistemTrolleybooks();
         sistem.ruleaza();
