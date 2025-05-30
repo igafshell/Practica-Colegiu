@@ -66,7 +66,6 @@ abstract class Persoana {
         this.dataNasterii = dataNasterii;
     }
 
-    @Override
     public String toString() {
         return "ID: " + id + ", Nume: " + nume + " " + prenume +
                 ", Telefon: " + telefon + ", Data nasterii: " + dataNasterii;
@@ -124,7 +123,6 @@ class Catalog {
         this.descriere = descriere;
     }
 
-    @Override
     public String toString() {
         return "ID: " + id + ", Denumire: " + denumire +
                 ", Domeniu: " + domeniu + ", Descriere: " + descriere;
@@ -269,7 +267,6 @@ class Carte implements OperatiiCarte {
         this.idCatalog = idCatalog;
     }
 
-    @Override
     public String toString() {
         return "ID: " + id + ", Titlu: " + titlu + ", Autor: " + autor +
                 ", Editura: " + editura + ", Localitate: " + localitateEditura +
@@ -299,7 +296,7 @@ class Cititor extends Persoana {
     }
 
     public void adaugaCarteImprumutata(int idCarte) {
-        cartiImprumutate.add(idCarte);
+        cartiImprumutate.add(Integer.valueOf(idCarte));
     }
 
     public void stergeCarteImprumutata(int idCarte) {
@@ -324,7 +321,6 @@ class Cititor extends Persoana {
         this.numarCarnet = numarCarnet;
     }
 
-    @Override
     public String toString() {
         return super.toString() + ", Numar carnet: " + numarCarnet +
                 ", Carti imprumutate: " + cartiImprumutate.size();
@@ -345,7 +341,6 @@ class Angajat extends Persoana {
         this.salariu = salariu;
     }
 
-    @Override
     public void afisareDetalii() {
         System.out.println("Angajat: " + super.toString() + ", Pozitie: " + pozitie + ", Salariu: " + salariu);
     }
@@ -367,7 +362,6 @@ class Angajat extends Persoana {
         this.salariu = salariu;
     }
 
-    @Override
     public String toString() {
         return super.toString() + ", Pozitie: " + pozitie + ", Salariu: " + salariu;
     }
@@ -508,6 +502,12 @@ class Inchiriere {
         return returnata;
     }
 
+    public void setIdCititor(int idCititor) { this.idCititor = idCititor; }
+
+    public void setIdCarte(int idCarte) { this.idCarte = idCarte; }
+
+    public void setDataInchiriere(String dataInchiriere) { this.dataInchiriere = dataInchiriere; }
+
     public void setDataReturnare(String dataReturnare) {
         this.dataReturnare = dataReturnare;
     }
@@ -568,6 +568,12 @@ class Cumparare {
     public double getPretPlatit() {
         return pretPlatit;
     }
+
+    public void setIdCititor(int idCititor) { this.idCititor = idCititor; }
+
+    public void setIdCarte(int idCarte) { this.idCarte = idCarte; }
+
+    public void setDataCumparare(String dataCumparare) { this.dataCumparare = dataCumparare; }
 
     public void setPretPlatit(double pretPlatit) {
         this.pretPlatit = pretPlatit;
@@ -727,6 +733,16 @@ class SistemTrolleybooks {
                 return Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
                 System.out.println("Va rugam introduceti un numar valid!");
+            }
+        }
+    }
+
+    public static double citesteDecimal(Scanner scanner) {
+        while (true) {
+            try {
+                return Double.parseDouble(scanner.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Valoare invalida! Introdu un numar real.");
             }
         }
     }
@@ -911,7 +927,7 @@ class SistemTrolleybooks {
                     carte.actualizeazaStare("returnata");
                     cititor.stergeCarteImprumutata(carte.getId());
                     inchiriere.setReturnata(true);
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat sdf = new SimpleDateFormat("DD.MM.YYYY");
                     inchiriere.setDataReturnare(sdf.format(new Date()));
                     return true;
                 }
@@ -920,20 +936,807 @@ class SistemTrolleybooks {
         return false;
     }
 
+    public void adaugaEntitate(Scanner scanner) {
+        System.out.println("Alege ce vrei sa adaugi:");
+        System.out.println("1. Catalog");
+        System.out.println("2. Carte");
+        System.out.println("3. Cititor");
+        System.out.println("4. Angajat");
+        System.out.println("5. Trolleybooks");
+        System.out.println("6. Inchiriere");
+        System.out.println("7. Cumparare");
+        System.out.println("Optiune: ");
+        int opt = citesteNumar(scanner);
+
+        switch (opt) {
+            case 1 -> adaugaCatalog(scanner);
+            case 2 -> adaugaCarte(scanner);
+            case 3 -> adaugaCititor(scanner);
+            case 4 -> adaugaAngajat(scanner);
+            case 5 -> adaugaTrolleybooks(scanner);
+            case 6 -> adaugaInchiriere(scanner);
+            case 7 -> adaugaCumparare(scanner);
+            default -> System.out.println("Optiune invalida!");
+        }
+    }
+
+    private void adaugaCatalog(Scanner scanner) {
+        int id = -1;
+        for(Catalog c : cataloguri) {
+            if(c.getId() > id) id = c.getId();
+        }
+        id = id + 1;
+        System.out.print("Denumire: ");
+        String denumire = scanner.nextLine();
+        System.out.print("Domeniu: ");
+        String domeniu = scanner.nextLine();
+        System.out.print("Descriere: ");
+        String descriere = scanner.nextLine();
+
+        cataloguri.add(new Catalog(id, denumire, domeniu, descriere));
+        System.out.println("Catalog adaugat.");
+    }
+
+    private void adaugaCarte(Scanner scanner) {
+        int id = -1;
+        for(Carte c : carti) {
+            if(c.getId() > id) id = c.getId();
+        }
+        id = id + 1;
+        System.out.print("Titlu: ");
+        String titlu = citesteNume(scanner);
+        System.out.print("Autor: ");
+        String autor = citesteNume(scanner);
+        System.out.print("Editura: ");
+        String editura = citesteNume(scanner);
+        System.out.print("Localitate editura: ");
+        String localitate = citesteNume(scanner);
+
+        System.out.println("An editie: ");
+        int anEditie = citesteNumar(scanner);
+        System.out.println("Numar pagini: ");
+        int numarPagini = citesteNumar(scanner);
+        System.out.println("Pret: ");
+        double pret = citesteDecimal(scanner);
+        System.out.println("Numar exemplare: ");
+        int numarExemplare = citesteNumar(scanner);
+        System.out.println("ID catalog: ");
+        int idCatalog = citesteNumar(scanner);
+
+        carti.add(new Carte(id, titlu, autor, editura, localitate, anEditie, numarPagini, pret, numarExemplare, idCatalog));
+        System.out.println("Carte adaugata.");
+    }
+
+    private void adaugaCititor(Scanner scanner) {
+        int id = -1;
+        for(Cititor c : cititori) {
+            if(c.getId() > id) id = c.getId();
+        }
+        id = id + 1;
+        System.out.print("Nume: ");
+        String nume = citesteNume(scanner);
+        System.out.print("Prenume: ");
+        String prenume = citesteNume(scanner);
+        System.out.print("Telefon: ");
+        String telefon = scanner.nextLine();
+        System.out.print("Data nasterii (DD.MM.YYYY): ");
+        String dataNasterii = citesteData(scanner);
+        System.out.print("Numar carnet: ");
+        String numarCarnet = scanner.nextLine();
+
+        cititori.add(new Cititor(id, nume, prenume, telefon, dataNasterii, numarCarnet));
+        System.out.println("Cititor adaugat.");
+    }
+
+    private void adaugaAngajat(Scanner scanner) {
+        int id = -1;
+        for(Angajat c : angajati) {
+            if(c.getId() > id) id = c.getId();
+        }
+        id = id + 1;
+        System.out.print("Nume: ");
+        String nume = citesteNume(scanner);
+        System.out.print("Prenume: ");
+        String prenume = citesteNume(scanner);
+        System.out.print("Telefon: ");
+        String telefon = scanner.nextLine();
+        System.out.print("Data nasterii (DD.MM.YYYY): ");
+        String dataNasterii = citesteData(scanner);
+        System.out.print("Pozitie: ");
+        String pozitie = citesteNume(scanner);
+        System.out.print("Salariu: ");
+        double salariu = citesteDecimal(scanner);
+
+        angajati.add(new Angajat(id, nume, prenume, telefon, dataNasterii, pozitie, salariu));
+        System.out.println("Angajat adaugat.");
+    }
+
+    private void adaugaTrolleybooks(Scanner scanner) {
+        int id = -1;
+        for(Trolleybooks c : trolleybooks) {
+            if(c.getId() > id) id = c.getId();
+        }
+        id = id + 1;
+        System.out.print("Denumire: ");
+        String denumire = citesteNume(scanner);
+        System.out.print("Ruta: ");
+        String ruta = scanner.nextLine();
+        System.out.print("ID sofer: ");
+        int soferId = citesteNumar(scanner);
+        System.out.println("ID bibliotecar: ");
+        int bibliotecarId = citesteNumar(scanner);
+        System.out.println("Capacitate carti: ");
+        int capacitate = citesteNumar(scanner);
+
+        trolleybooks.add(new Trolleybooks(id, denumire, ruta, soferId, bibliotecarId, capacitate));
+        System.out.println("Trolleybooks adaugat.");
+    }
+
+    private void adaugaInchiriere(Scanner scanner) {
+        int id = -1;
+        for(Inchiriere c : inchirieri) {
+            if(c.getId() > id) id = c.getId();
+        }
+        id = id + 1;
+        System.out.println("ID cititor: ");
+        int idCititor = citesteNumar(scanner);
+        System.out.println("ID carte: ");
+        int idCarte = citesteNumar(scanner);
+        System.out.print("Data inchiriere (DD.MM.YYYY): ");
+        String dataInchiriere = citesteData(scanner);
+        System.out.print("Data returnare (DD.MM.YYYY): ");
+        String dataReturnare = citesteData(scanner);
+
+        inchirieri.add(new Inchiriere(id, idCititor, idCarte, dataInchiriere, dataReturnare));
+        System.out.println("Inchiriere adaugata.");
+    }
+
+    private void adaugaCumparare(Scanner scanner) {
+        int id = -1;
+        for(Cumparare c : cumparari) {
+            if(c.getId() > id) id = c.getId();
+        }
+        id = id + 1;
+        System.out.println("ID cititor: ");
+        int idCititor = citesteNumar(scanner);
+        System.out.println("ID carte: ");
+        int idCarte = citesteNumar(scanner);
+        System.out.print("Data cumparare (DD.MM.YYYY): ");
+        String dataCumparare = citesteData(scanner);
+        System.out.println("Pret platit: ");
+        double pretPlatit = citesteDecimal(scanner);
+
+        cumparari.add(new Cumparare(id, idCititor, idCarte, dataCumparare, pretPlatit));
+        System.out.println("Cumparare adaugata.");
+    }
+
+    public void afiseazaEntitati(Scanner scanner) {
+        System.out.println("Alege ce vrei sa afisezi:");
+        System.out.println("1. Cataloage");
+        System.out.println("2. Carti");
+        System.out.println("3. Cititori");
+        System.out.println("4. Angajati");
+        System.out.println("5. Trolleybooks");
+        System.out.println("6. Inchirieri");
+        System.out.println("7. Cumparari");
+        System.out.print("Optiune: ");
+        int opt = citesteNumar(scanner);
+
+        switch (opt) {
+            case 1 -> afiseazaLista(cataloguri, "Cataloage");
+            case 2 -> afiseazaLista(carti, "Carti");
+            case 3 -> afiseazaLista(cititori, "Cititori");
+            case 4 -> afiseazaLista(angajati, "Angajati");
+            case 5 -> afiseazaLista(trolleybooks, "Trolleybooks");
+            case 6 -> afiseazaLista(inchirieri, "Inchirieri");
+            case 7 -> afiseazaLista(cumparari, "Cumparari");
+            default -> System.out.println("Optiune invalida!");
+        }
+    }
+
+    public void stergeEntitate(Scanner scanner) {
+        System.out.println("Alege ce vrei sa stergi:");
+        System.out.println("1. Catalog");
+        System.out.println("2. Carte");
+        System.out.println("3. Cititor");
+        System.out.println("4. Angajat");
+        System.out.println("5. Trolleybooks");
+        System.out.println("6. Inchiriere");
+        System.out.println("7. Cumparare");
+        System.out.print("Optiune: ");
+        int opt = citesteNumar(scanner);
+
+        switch (opt) {
+            case 1 -> stergeCatalog(scanner);
+            case 2 -> stergeCarte(scanner);
+            case 3 -> stergeCititor(scanner);
+            case 4 -> stergeAngajat(scanner);
+            case 5 -> stergeTrolleybooks(scanner);
+            case 6 -> stergeInchiriere(scanner);
+            case 7 -> stergeCumparare(scanner);
+            default -> System.out.println("Optiune invalida!");
+        }
+    }
+
+    private void stergeCatalog(Scanner scanner) {
+        afiseazaLista(cataloguri, "Cataloage");
+        System.out.print("Introduceti ID-ul catalogului de sters: ");
+        int id = citesteNumar(scanner);
+
+        boolean found = false;
+        for (int i = 0; i < cataloguri.size(); i++) {
+            if (cataloguri.get(i).getId() == id) {
+                cataloguri.remove(i);
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            System.out.println("Catalog sters cu succes!");
+        } else {
+            System.out.println("Catalogul nu a fost gasit!");
+        }
+    }
+
+    private void stergeCarte(Scanner scanner) {
+        afiseazaLista(carti, "Carti");
+        System.out.print("Introduceti ID-ul cartii de sters: ");
+        int id = citesteNumar(scanner);
+
+        boolean found = false;
+        for (int i = 0; i < carti.size(); i++) {
+            if (carti.get(i).getId() == id) {
+                carti.remove(i);
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            System.out.println("Carte stearsa cu succes!");
+        } else {
+            System.out.println("Cartea nu a fost gasita!");
+        }
+    }
+
+    private void stergeCititor(Scanner scanner) {
+        afiseazaLista(cititori, "Cititori");
+        System.out.print("Introduceti ID-ul cititorului de sters: ");
+        int id = citesteNumar(scanner);
+
+        boolean found = false;
+        for (int i = 0; i < cititori.size(); i++) {
+            if (cititori.get(i).getId() == id) {
+                cititori.remove(i);
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            System.out.println("Cititor sters cu succes!");
+        } else {
+            System.out.println("Cititorul nu a fost gasit!");
+        }
+    }
+
+    private void stergeAngajat(Scanner scanner) {
+        afiseazaLista(angajati, "Angajati");
+        System.out.print("Introduceti ID-ul angajatului de sters: ");
+        int id = citesteNumar(scanner);
+
+        boolean found = false;
+        for (int i = 0; i < angajati.size(); i++) {
+            if (angajati.get(i).getId() == id) {
+                angajati.remove(i);
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            System.out.println("Angajat sters cu succes!");
+        } else {
+            System.out.println("Angajatul nu a fost gasit!");
+        }
+    }
+
+    private void stergeTrolleybooks(Scanner scanner) {
+        afiseazaLista(trolleybooks, "Trolleybooks");
+        System.out.print("Introduceti ID-ul trolleybooks de sters: ");
+        int id = citesteNumar(scanner);
+
+        boolean found = false;
+        for (int i = 0; i < trolleybooks.size(); i++) {
+            if (trolleybooks.get(i).getId() == id) {
+                trolleybooks.remove(i);
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            System.out.println("Trolleybooks sters cu succes!");
+        } else {
+            System.out.println("Trolleybooks nu a fost gasit!");
+        }
+    }
+
+    private void stergeInchiriere(Scanner scanner) {
+        afiseazaLista(inchirieri, "Inchirieri");
+        System.out.print("Introduceti ID-ul inchirierii de sters: ");
+        int id = citesteNumar(scanner);
+
+        boolean found = false;
+        for (int i = 0; i < inchirieri.size(); i++) {
+            if (inchirieri.get(i).getId() == id) {
+                inchirieri.remove(i);
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            System.out.println("Inchiriere stearsa cu succes!");
+        } else {
+            System.out.println("Inchirierea nu a fost gasita!");
+        }
+    }
+
+    private void stergeCumparare(Scanner scanner) {
+        afiseazaLista(cumparari, "Cumparari");
+        System.out.print("Introduceti ID-ul cumpararii de sters: ");
+        int id = citesteNumar(scanner);
+
+        boolean found = false;
+        for (int i = 0; i < cumparari.size(); i++) {
+            if (cumparari.get(i).getId() == id) {
+                cumparari.remove(i);
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            System.out.println("Cumparare stearsa cu succes!");
+        } else {
+            System.out.println("Cumpararea nu a fost gasita!");
+        }
+    }
+
+    public void modificaEntitate(Scanner scanner) {
+        System.out.println("Alege ce vrei sa modifici:");
+        System.out.println("1. Catalog");
+        System.out.println("2. Carte");
+        System.out.println("3. Cititor");
+        System.out.println("4. Angajat");
+        System.out.println("5. Trolleybooks");
+        System.out.println("6. Inchiriere");
+        System.out.println("7. Cumparare");
+        System.out.print("Optiune: ");
+        int opt = citesteNumar(scanner);
+
+        switch (opt) {
+            case 1 -> modificaCatalog(scanner);
+            case 2 -> modificaCarte(scanner);
+            case 3 -> modificaCititor(scanner);
+            case 4 -> modificaAngajat(scanner);
+            case 5 -> modificaTrolleybooks(scanner);
+            case 6 -> modificaInchiriere(scanner);
+            case 7 -> modificaCumparare(scanner);
+            default -> System.out.println("Optiune invalida!");
+        }
+    }
+
+    private void modificaCatalog(Scanner scanner) {
+        afiseazaLista(cataloguri, "Cataloage");
+        System.out.print("Introduceti ID-ul catalogului de modificat: ");
+        int id = citesteNumar(scanner);
+
+        Catalog catalog = null;
+        for (Catalog c : cataloguri) {
+            if (c.getId() == id) {
+                catalog = c;
+                break;
+            }
+        }
+
+        if (catalog == null) {
+            System.out.println("Catalogul nu a fost gasit!");
+            return;
+        }
+
+        System.out.println("Date curente: " + catalog);
+        System.out.println("Introduceti noile date (lasati gol pentru a pastra valoarea curenta):");
+
+        System.out.print("Denumire (" + catalog.getDenumire() + "): ");
+        String denumire = scanner.nextLine();
+        if (!denumire.isEmpty()) {
+            catalog.setDenumire(denumire);
+        }
+
+        System.out.print("Domeniu (" + catalog.getDomeniu() + "): ");
+        String domeniu = scanner.nextLine();
+        if (!domeniu.isEmpty()) {
+            catalog.setDomeniu(domeniu);
+        }
+
+        System.out.print("Descriere (" + catalog.getDescriere() + "): ");
+        String descriere = scanner.nextLine();
+        if (!descriere.isEmpty()) {
+            catalog.setDescriere(descriere);
+        }
+
+        System.out.println("Catalog actualizat cu succes!");
+    }
+
+    private void modificaCarte(Scanner scanner) {
+        afiseazaLista(carti, "Carti");
+        System.out.print("Introduceti ID-ul cartii de modificat: ");
+        int id = citesteNumar(scanner);
+
+        Carte carte = null;
+        for (Carte c : carti) {
+            if (c.getId() == id) {
+                carte = c;
+                break;
+            }
+        }
+
+        if (carte == null) {
+            System.out.println("Cartea nu a fost gasita!");
+            return;
+        }
+
+        System.out.println("Date curente: " + carte);
+        System.out.println("Introduceti noile date (lasati gol pentru a pastra valoarea curenta):");
+
+        System.out.print("Titlu (" + carte.getTitlu() + "): ");
+        String titlu = scanner.nextLine();
+        if (!titlu.isEmpty()) {
+            carte.setTitlu(titlu);
+        }
+
+        System.out.print("Autor (" + carte.getAutor() + "): ");
+        String autor = scanner.nextLine();
+        if (!autor.isEmpty()) {
+            carte.setAutor(autor);
+        }
+
+        System.out.print("Editura (" + carte.getEditura() + "): ");
+        String editura = scanner.nextLine();
+        if (!editura.isEmpty()) {
+            carte.setEditura(editura);
+        }
+
+        System.out.print("Localitate editura (" + carte.getLocalitateEditura() + "): ");
+        String localitate = scanner.nextLine();
+        if (!localitate.isEmpty()) {
+            carte.setLocalitateEditura(localitate);
+        }
+
+        System.out.print("An editie (" + carte.getAnEditie() + "): ");
+        String anEditieStr = scanner.nextLine();
+        if (!anEditieStr.isEmpty()) {
+            carte.setAnEditie(Integer.parseInt(anEditieStr));
+        }
+
+        System.out.print("Numar pagini (" + carte.getNumarPagini() + "): ");
+        String paginiStr = scanner.nextLine();
+        if (!paginiStr.isEmpty()) {
+            carte.setNumarPagini(Integer.parseInt(paginiStr));
+        }
+
+        System.out.print("Pret (" + carte.getPret() + "): ");
+        String pretStr = scanner.nextLine();
+        if (!pretStr.isEmpty()) {
+            carte.setPret(Double.parseDouble(pretStr));
+        }
+
+        System.out.print("Numar exemplare (" + carte.getNumarExemplare() + "): ");
+        String exemplareStr = scanner.nextLine();
+        if (!exemplareStr.isEmpty()) {
+            carte.setNumarExemplare(Integer.parseInt(exemplareStr));
+        }
+
+        System.out.print("ID catalog (" + carte.getIdCatalog() + "): ");
+        String catalogStr = scanner.nextLine();
+        if (!catalogStr.isEmpty()) {
+            carte.setIdCatalog(Integer.parseInt(catalogStr));
+        }
+
+        System.out.println("Carte actualizata cu succes!");
+    }
+
+    private void modificaCititor(Scanner scanner) {
+        afiseazaLista(cititori, "Cititori");
+        System.out.print("Introduceti ID-ul cititorului de modificat: ");
+        int id = citesteNumar(scanner);
+
+        Cititor cititor = null;
+        for (Cititor c : cititori) {
+            if (c.getId() == id) {
+                cititor = c;
+                break;
+            }
+        }
+
+        if (cititor == null) {
+            System.out.println("Cititorul nu a fost gasit!");
+            return;
+        }
+
+        System.out.println("Date curente: " + cititor);
+        System.out.println("Introduceti noile date (lasati gol pentru a pastra valoarea curenta):");
+
+        System.out.print("Nume (" + cititor.getNume() + "): ");
+        String nume = scanner.nextLine();
+        if (!nume.isEmpty()) {
+            cititor.setNume(nume);
+        }
+
+        System.out.print("Prenume (" + cititor.getPrenume() + "): ");
+        String prenume = scanner.nextLine();
+        if (!prenume.isEmpty()) {
+            cititor.setPrenume(prenume);
+        }
+
+        System.out.print("Telefon (" + cititor.getTelefon() + "): ");
+        String telefon = scanner.nextLine();
+        if (!telefon.isEmpty()) {
+            cititor.setTelefon(telefon);
+        }
+
+        System.out.print("Data nasterii (" + cititor.getDataNasterii() + "): ");
+        String dataNasterii = scanner.nextLine();
+        if (!dataNasterii.isEmpty()) {
+            cititor.setDataNasterii(dataNasterii);
+        }
+
+        System.out.print("Numar carnet (" + cititor.getNumarCarnet() + "): ");
+        String carnet = scanner.nextLine();
+        if (!carnet.isEmpty()) {
+            cititor.setNumarCarnet(carnet);
+        }
+
+        System.out.println("Cititor actualizat cu succes!");
+    }
+
+    private void modificaAngajat(Scanner scanner) {
+        afiseazaLista(angajati, "Angajati");
+        System.out.print("Introduceti ID-ul angajatului de modificat: ");
+        int id = citesteNumar(scanner);
+
+        Angajat angajat = null;
+        for (Angajat a : angajati) {
+            if (a.getId() == id) {
+                angajat = a;
+                break;
+            }
+        }
+
+        if (angajat == null) {
+            System.out.println("Angajatul nu a fost gasit!");
+            return;
+        }
+
+        System.out.println("Date curente: " + angajat);
+        System.out.println("Introduceti noile date (lasati gol pentru a pastra valoarea curenta):");
+
+        System.out.print("Nume (" + angajat.getNume() + "): ");
+        String nume = scanner.nextLine();
+        if (!nume.isEmpty()) {
+            angajat.setNume(nume);
+        }
+
+        System.out.print("Prenume (" + angajat.getPrenume() + "): ");
+        String prenume = scanner.nextLine();
+        if (!prenume.isEmpty()) {
+            angajat.setPrenume(prenume);
+        }
+
+        System.out.print("Telefon (" + angajat.getTelefon() + "): ");
+        String telefon = scanner.nextLine();
+        if (!telefon.isEmpty()) {
+            angajat.setTelefon(telefon);
+        }
+
+        System.out.print("Data nasterii (" + angajat.getDataNasterii() + "): ");
+        String dataNasterii = scanner.nextLine();
+        if (!dataNasterii.isEmpty()) {
+            angajat.setDataNasterii(dataNasterii);
+        }
+
+        System.out.print("Pozitie (" + angajat.getPozitie() + "): ");
+        String pozitie = scanner.nextLine();
+        if (!pozitie.isEmpty()) {
+            angajat.setPozitie(pozitie);
+        }
+
+        System.out.print("Salariu (" + angajat.getSalariu() + "): ");
+        String salariuStr = scanner.nextLine();
+        if (!salariuStr.isEmpty()) {
+            angajat.setSalariu(Double.parseDouble(salariuStr));
+        }
+
+        System.out.println("Angajat actualizat cu succes!");
+    }
+
+    private void modificaTrolleybooks(Scanner scanner) {
+        afiseazaLista(trolleybooks, "Trolleybooks");
+        System.out.print("Introduceti ID-ul trolleybooks de modificat: ");
+        int id = citesteNumar(scanner);
+
+        Trolleybooks trolley = null;
+        for (Trolleybooks t : trolleybooks) {
+            if (t.getId() == id) {
+                trolley = t;
+                break;
+            }
+        }
+
+        if (trolley == null) {
+            System.out.println("Trolleybooks nu a fost gasit!");
+            return;
+        }
+
+        System.out.println("Date curente: " + trolley);
+        System.out.println("Introduceti noile date (lasati gol pentru a pastra valoarea curenta):");
+
+        System.out.print("Denumire (" + trolley.getDenumire() + "): ");
+        String denumire = scanner.nextLine();
+        if (!denumire.isEmpty()) {
+            trolley.setDenumire(denumire);
+        }
+
+        System.out.print("Ruta (" + trolley.getRuta() + "): ");
+        String ruta = scanner.nextLine();
+        if (!ruta.isEmpty()) {
+            trolley.setRuta(ruta);
+        }
+
+        System.out.print("ID sofer (" + trolley.getSoferId() + "): ");
+        String soferStr = scanner.nextLine();
+        if (!soferStr.isEmpty()) {
+            trolley.setSoferId(Integer.parseInt(soferStr));
+        }
+
+        System.out.print("ID bibliotecar (" + trolley.getBibliotecarId() + "): ");
+        String biblStr = scanner.nextLine();
+        if (!biblStr.isEmpty()) {
+            trolley.setBibliotecarId(Integer.parseInt(biblStr));
+        }
+
+        System.out.print("Capacitate carti (" + trolley.getCapacitateCarti() + "): ");
+        String capStr = scanner.nextLine();
+        if (!capStr.isEmpty()) {
+            trolley.setCapacitateCarti(Integer.parseInt(capStr));
+        }
+
+        System.out.println("Trolleybooks actualizat cu succes!");
+    }
+
+    private void modificaInchiriere(Scanner scanner) {
+        afiseazaLista(inchirieri, "Inchirieri");
+        System.out.print("Introduceti ID-ul inchirierii de modificat: ");
+        int id = citesteNumar(scanner);
+
+        Inchiriere inchiriere = null;
+        for (Inchiriere i : inchirieri) {
+            if (i.getId() == id) {
+                inchiriere = i;
+                break;
+            }
+        }
+
+        if (inchiriere == null) {
+            System.out.println("Inchirierea nu a fost gasita!");
+            return;
+        }
+
+        System.out.println("Date curente: " + inchiriere);
+        System.out.println("Introduceti noile date (lasati gol pentru a pastra valoarea curenta):");
+
+        System.out.print("ID cititor (" + inchiriere.getIdCititor() + "): ");
+        String cititorStr = scanner.nextLine();
+        if (!cititorStr.isEmpty()) {
+            inchiriere.setIdCititor(Integer.parseInt(cititorStr));
+        }
+
+        System.out.print("ID carte (" + inchiriere.getIdCarte() + "): ");
+        String carteStr = scanner.nextLine();
+        if (!carteStr.isEmpty()) {
+            inchiriere.setIdCarte(Integer.parseInt(carteStr));
+        }
+
+        System.out.print("Data inchiriere (" + inchiriere.getDataInchiriere() + "): ");
+        String dataInchiriere = scanner.nextLine();
+        if (!dataInchiriere.isEmpty()) {
+            inchiriere.setDataInchiriere(dataInchiriere);
+        }
+
+        System.out.print("Data returnare (" + inchiriere.getDataReturnare() + "): ");
+        String dataReturnare = scanner.nextLine();
+        if (!dataReturnare.isEmpty()) {
+            inchiriere.setDataReturnare(dataReturnare);
+        }
+
+        System.out.print("Returnata (" + inchiriere.isReturnata() + "): ");
+        String returnataStr = scanner.nextLine();
+        if (!returnataStr.isEmpty()) {
+            inchiriere.setReturnata(Boolean.parseBoolean(returnataStr));
+        }
+
+        System.out.println("Inchiriere actualizata cu succes!");
+    }
+
+    private void modificaCumparare(Scanner scanner) {
+        afiseazaLista(cumparari, "Cumparari");
+        System.out.print("Introduceti ID-ul cumpararii de modificat: ");
+        int id = citesteNumar(scanner);
+
+        Cumparare cumparare = null;
+        for (Cumparare c : cumparari) {
+            if (c.getId() == id) {
+                cumparare = c;
+                break;
+            }
+        }
+
+        if (cumparare == null) {
+            System.out.println("Cumpararea nu a fost gasita!");
+            return;
+        }
+
+        System.out.println("Date curente: " + cumparare);
+        System.out.println("Introduceti noile date (lasati gol pentru a pastra valoarea curenta):");
+
+        System.out.print("ID cititor (" + cumparare.getIdCititor() + "): ");
+        String cititorStr = scanner.nextLine();
+        if (!cititorStr.isEmpty()) {
+            cumparare.setIdCititor(Integer.parseInt(cititorStr));
+        }
+
+        System.out.print("ID carte (" + cumparare.getIdCarte() + "): ");
+        String carteStr = scanner.nextLine();
+        if (!carteStr.isEmpty()) {
+            cumparare.setIdCarte(Integer.parseInt(carteStr));
+        }
+
+        System.out.print("Data cumparare (" + cumparare.getDataCumparare() + "): ");
+        String dataCumparare = scanner.nextLine();
+        if (!dataCumparare.isEmpty()) {
+            cumparare.setDataCumparare(dataCumparare);
+        }
+
+        System.out.print("Pret platit (" + cumparare.getPretPlatit() + "): ");
+        String pretStr = scanner.nextLine();
+        if (!pretStr.isEmpty()) {
+            cumparare.setPretPlatit(Double.parseDouble(pretStr));
+        }
+
+        System.out.println("Cumparare actualizata cu succes!");
+    }
+
     public void afiseazaMeniu() {
-        System.out.println("\n===== MENIU PRINCIPAL =====");
-        System.out.println("1. Afiseaza carti disponibile");
-        System.out.println("2. Inchiriaza carte");
-        System.out.println("3. Cumpara carte");
-        System.out.println("4. Returneaza carte");
-        System.out.println("5. Afiseaza toate inchirierile");
-        System.out.println("6. Afiseaza toate cumpararile");
-        System.out.println("7. Afiseaza toti cititorii");
-        System.out.println("8. Afiseaza toti angajatii");
-        System.out.println("9. Afiseaza toate trolleybooks");
-        System.out.println("10. Afiseaza toate catalogurile");
-        System.out.println("11. Afiseaza toate cartile");
-        System.out.println("12. Afiseaza venit total");
+        System.out.println("=======================================================================================================");
+        System.out.println(" ████████╗██████╗  ██████╗ ██╗     ██╗     ███████╗██╗   ██╗██████╗  ██████╗  ██████╗ ██╗  ██╗███████╗");
+        System.out.println(" ╚══██╔══╝██╔══██╗██╔═══██╗██║     ██║     ██╔════╝╚██╗ ██╔╝██╔══██╗██╔═══██╗██╔═══██╗██║ ██╔╝██╔════╝");
+        System.out.println("    ██║   ██████╔╝██║   ██║██║     ██║     █████╗   ╚████╔╝ ██████╔╝██║   ██║██║   ██║█████╔╝ ███████╗");
+        System.out.println("    ██║   ██╔══██╗██║   ██║██║     ██║     ██╔══╝    ╚██╔╝  ██╔══██╗██║   ██║██║   ██║██╔═██╗ ╚════██║");
+        System.out.println("    ██║   ██║  ██║╚██████╔╝███████╗███████╗███████╗   ██║   ██████╔╝╚██████╔╝╚██████╔╝██║  ██╗███████║");
+        System.out.println("    ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚══════╝╚══════╝   ╚═╝   ╚═════╝  ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚══════╝");
+        System.out.println("=======================================================================================================");
+        System.out.println("1. Afiseaza entitati");
+        System.out.println("2. Adauga entitate");
+        System.out.println("3. Modifica entitate");
+        System.out.println("4. Sterge entitate");
+        System.out.println("5. Afiseaza carti disponibile");
+        System.out.println("6. Inchiriaza carte");
+        System.out.println("7. Cumpara carte");
+        System.out.println("8. Returneaza carte");
+        System.out.println("9. Afiseaza venit total");
         System.out.println("0. Iesire");
         System.out.print("Selectati optiunea: ");
     }
@@ -956,16 +1759,28 @@ class SistemTrolleybooks {
 
             switch (optiune) {
                 case 1:
-                    afiseazaCartiDisponibile();
+                    afiseazaEntitati(scanner);
                     break;
                 case 2:
-                    inchiriazaCarte(scanner);
+                    adaugaEntitate(scanner);
                     break;
                 case 3:
-                    cumparaCarte(scanner);
+                    modificaEntitate(scanner);
                     break;
                 case 4:
-                    System.out.println("Introduceti id-ul cartii care doriti sa o inchiriati:");
+                    stergeEntitate(scanner);
+                    break;
+                case 5:
+                    afiseazaCartiDisponibile();
+                    break;
+                case 6:
+                    inchiriazaCarte(scanner);
+                    break;
+                case 7:
+                    cumparaCarte(scanner);
+                    break;
+                case 8:
+                    System.out.println("Introduceti id-ul cartii care doriti sa o returnati:");
                     int idCarte = citesteNumar(scanner);
                     if (returneazaCarte(idCarte)) {
                         System.out.println("Cartea a fost returnata cu succes!");
@@ -973,28 +1788,7 @@ class SistemTrolleybooks {
                         System.out.println("Cartea nu a fost gasita sau nu poate fi returnata!");
                     }
                     break;
-                case 5:
-                    afiseazaLista(inchirieri, "Inchirieri");
-                    break;
-                case 6:
-                    afiseazaLista(cumparari, "Cumparari");
-                    break;
-                case 7:
-                    afiseazaLista(cititori, "Cititori");
-                    break;
-                case 8:
-                    afiseazaLista(angajati, "Angajati");
-                    break;
                 case 9:
-                    afiseazaLista(trolleybooks, "Trolleybooks");
-                    break;
-                case 10:
-                    afiseazaLista(cataloguri, "Cataloguri");
-                    break;
-                case 11:
-                    afiseazaLista(carti, "Carti");
-                    break;
-                case 12:
                     afiseazaVenitTotal();
                     break;
                 case 0:

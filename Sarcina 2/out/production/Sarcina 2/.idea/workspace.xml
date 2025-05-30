@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="d1d03187-4d26-4db2-befb-cad79366330f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/Angajat.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Sarcina 2/Angajat.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/Carte.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Sarcina 2/Carte.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/Catalog.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Sarcina 2/Catalog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/Cititor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Sarcina 2/Cititor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/Cumparare.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Sarcina 2/Cumparare.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/Inchiriere.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Sarcina 2/Inchiriere.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/OperatiiCarte.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Sarcina 2/OperatiiCarte.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/Persoana.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Sarcina 2/Persoana.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/ProgramTrolleybooks.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/SistemTrolleybooks.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Sarcina 2/SistemTrolleybooks.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/Trolleybooks.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Sarcina 2/Trolleybooks.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2xlonQUiDj13P7Udv96s7JTAlox" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.TrolleybooksUI.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.21565.193" />
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-IU-243.21565.193" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d1d03187-4d26-4db2-befb-cad79366330f" name="Changes" comment="" />
+      <created>1748522190410</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1748522190410</updated>
+      <workItem from="1748522192207" duration="296000" />
+      <workItem from="1748595794427" duration="2000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
