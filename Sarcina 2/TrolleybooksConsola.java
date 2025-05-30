@@ -1348,22 +1348,22 @@ class SistemTrolleybooks {
         }
 
         System.out.println("Date curente: " + catalog);
-        System.out.println("Introduceti noile date (lasati gol pentru a pastra valoarea curenta):");
+        System.out.println("Introduceti noile date: ");
 
         System.out.print("Denumire (" + catalog.getDenumire() + "): ");
-        String denumire = scanner.nextLine();
+        String denumire = citesteNume(scanner);
         if (!denumire.isEmpty()) {
             catalog.setDenumire(denumire);
         }
 
         System.out.print("Domeniu (" + catalog.getDomeniu() + "): ");
-        String domeniu = scanner.nextLine();
+        String domeniu = citesteNume(scanner);
         if (!domeniu.isEmpty()) {
             catalog.setDomeniu(domeniu);
         }
 
         System.out.print("Descriere (" + catalog.getDescriere() + "): ");
-        String descriere = scanner.nextLine();
+        String descriere = citesteNume(scanner);
         if (!descriere.isEmpty()) {
             catalog.setDescriere(descriere);
         }
@@ -1390,61 +1390,51 @@ class SistemTrolleybooks {
         }
 
         System.out.println("Date curente: " + carte);
-        System.out.println("Introduceti noile date (lasati gol pentru a pastra valoarea curenta):");
+        System.out.println("Introduceti noile date:");
 
         System.out.print("Titlu (" + carte.getTitlu() + "): ");
-        String titlu = scanner.nextLine();
+        String titlu = citesteNume(scanner);
         if (!titlu.isEmpty()) {
             carte.setTitlu(titlu);
         }
 
         System.out.print("Autor (" + carte.getAutor() + "): ");
-        String autor = scanner.nextLine();
+        String autor = citesteNume(scanner);
         if (!autor.isEmpty()) {
             carte.setAutor(autor);
         }
 
         System.out.print("Editura (" + carte.getEditura() + "): ");
-        String editura = scanner.nextLine();
+        String editura = citesteNume(scanner);
         if (!editura.isEmpty()) {
             carte.setEditura(editura);
         }
 
         System.out.print("Localitate editura (" + carte.getLocalitateEditura() + "): ");
-        String localitate = scanner.nextLine();
+        String localitate = citesteNume(scanner);
         if (!localitate.isEmpty()) {
             carte.setLocalitateEditura(localitate);
         }
 
         System.out.print("An editie (" + carte.getAnEditie() + "): ");
-        String anEditieStr = scanner.nextLine();
-        if (!anEditieStr.isEmpty()) {
-            carte.setAnEditie(Integer.parseInt(anEditieStr));
-        }
+        int anEditieStr = citesteNumar(scanner);
+        carte.setAnEditie(anEditieStr);
 
         System.out.print("Numar pagini (" + carte.getNumarPagini() + "): ");
-        String paginiStr = scanner.nextLine();
-        if (!paginiStr.isEmpty()) {
-            carte.setNumarPagini(Integer.parseInt(paginiStr));
-        }
+        int paginiStr = citesteNumar(scanner);
+        carte.setNumarPagini(paginiStr);
 
         System.out.print("Pret (" + carte.getPret() + "): ");
-        String pretStr = scanner.nextLine();
-        if (!pretStr.isEmpty()) {
-            carte.setPret(Double.parseDouble(pretStr));
-        }
+        int pretStr = citesteNumar(scanner);
+        carte.setPret(pretStr);
 
         System.out.print("Numar exemplare (" + carte.getNumarExemplare() + "): ");
-        String exemplareStr = scanner.nextLine();
-        if (!exemplareStr.isEmpty()) {
-            carte.setNumarExemplare(Integer.parseInt(exemplareStr));
-        }
+        int exemplareStr = citesteNumar(scanner);
+        carte.setNumarExemplare(exemplareStr);
 
         System.out.print("ID catalog (" + carte.getIdCatalog() + "): ");
-        String catalogStr = scanner.nextLine();
-        if (!catalogStr.isEmpty()) {
-            carte.setIdCatalog(Integer.parseInt(catalogStr));
-        }
+        int catalogStr = citesteNumar(scanner);
+        carte.setIdCatalog(catalogStr);
 
         System.out.println("Carte actualizata cu succes!");
     }
@@ -1468,16 +1458,16 @@ class SistemTrolleybooks {
         }
 
         System.out.println("Date curente: " + cititor);
-        System.out.println("Introduceti noile date (lasati gol pentru a pastra valoarea curenta):");
+        System.out.println("Introduceti noile date:");
 
         System.out.print("Nume (" + cititor.getNume() + "): ");
-        String nume = scanner.nextLine();
+        String nume = citesteNume(scanner);
         if (!nume.isEmpty()) {
             cititor.setNume(nume);
         }
 
         System.out.print("Prenume (" + cititor.getPrenume() + "): ");
-        String prenume = scanner.nextLine();
+        String prenume = citesteNume(scanner);
         if (!prenume.isEmpty()) {
             cititor.setPrenume(prenume);
         }
@@ -1489,7 +1479,7 @@ class SistemTrolleybooks {
         }
 
         System.out.print("Data nasterii (" + cititor.getDataNasterii() + "): ");
-        String dataNasterii = scanner.nextLine();
+        String dataNasterii = citesteData(scanner);
         if (!dataNasterii.isEmpty()) {
             cititor.setDataNasterii(dataNasterii);
         }
@@ -1522,16 +1512,16 @@ class SistemTrolleybooks {
         }
 
         System.out.println("Date curente: " + angajat);
-        System.out.println("Introduceti noile date (lasati gol pentru a pastra valoarea curenta):");
+        System.out.println("Introduceti noile date:");
 
         System.out.print("Nume (" + angajat.getNume() + "): ");
-        String nume = scanner.nextLine();
+        String nume = citesteNume(scanner);
         if (!nume.isEmpty()) {
             angajat.setNume(nume);
         }
 
         System.out.print("Prenume (" + angajat.getPrenume() + "): ");
-        String prenume = scanner.nextLine();
+        String prenume = citesteNume(scanner);
         if (!prenume.isEmpty()) {
             angajat.setPrenume(prenume);
         }
@@ -1543,7 +1533,7 @@ class SistemTrolleybooks {
         }
 
         System.out.print("Data nasterii (" + angajat.getDataNasterii() + "): ");
-        String dataNasterii = scanner.nextLine();
+        String dataNasterii = citesteData(scanner);
         if (!dataNasterii.isEmpty()) {
             angajat.setDataNasterii(dataNasterii);
         }
@@ -1555,10 +1545,8 @@ class SistemTrolleybooks {
         }
 
         System.out.print("Salariu (" + angajat.getSalariu() + "): ");
-        String salariuStr = scanner.nextLine();
-        if (!salariuStr.isEmpty()) {
-            angajat.setSalariu(Double.parseDouble(salariuStr));
-        }
+        double salariuStr = citesteDecimal(scanner);
+        angajat.setSalariu(salariuStr);
 
         System.out.println("Angajat actualizat cu succes!");
     }
@@ -1582,10 +1570,10 @@ class SistemTrolleybooks {
         }
 
         System.out.println("Date curente: " + trolley);
-        System.out.println("Introduceti noile date (lasati gol pentru a pastra valoarea curenta):");
+        System.out.println("Introduceti noile date:");
 
         System.out.print("Denumire (" + trolley.getDenumire() + "): ");
-        String denumire = scanner.nextLine();
+        String denumire = citesteNume(scanner);
         if (!denumire.isEmpty()) {
             trolley.setDenumire(denumire);
         }
@@ -1597,22 +1585,16 @@ class SistemTrolleybooks {
         }
 
         System.out.print("ID sofer (" + trolley.getSoferId() + "): ");
-        String soferStr = scanner.nextLine();
-        if (!soferStr.isEmpty()) {
-            trolley.setSoferId(Integer.parseInt(soferStr));
-        }
+        int soferStr = citesteNumar(scanner);
+        trolley.setSoferId(soferStr);
 
         System.out.print("ID bibliotecar (" + trolley.getBibliotecarId() + "): ");
-        String biblStr = scanner.nextLine();
-        if (!biblStr.isEmpty()) {
-            trolley.setBibliotecarId(Integer.parseInt(biblStr));
-        }
+        int biblStr = citesteNumar(scanner);
+        trolley.setBibliotecarId(biblStr);
 
         System.out.print("Capacitate carti (" + trolley.getCapacitateCarti() + "): ");
-        String capStr = scanner.nextLine();
-        if (!capStr.isEmpty()) {
-            trolley.setCapacitateCarti(Integer.parseInt(capStr));
-        }
+        int capStr = citesteNumar(scanner);
+        trolley.setCapacitateCarti(capStr);
 
         System.out.println("Trolleybooks actualizat cu succes!");
     }
@@ -1636,36 +1618,33 @@ class SistemTrolleybooks {
         }
 
         System.out.println("Date curente: " + inchiriere);
-        System.out.println("Introduceti noile date (lasati gol pentru a pastra valoarea curenta):");
+        System.out.println("Introduceti noile date:");
 
         System.out.print("ID cititor (" + inchiriere.getIdCititor() + "): ");
-        String cititorStr = scanner.nextLine();
-        if (!cititorStr.isEmpty()) {
-            inchiriere.setIdCititor(Integer.parseInt(cititorStr));
-        }
+        int cititorStr = citesteNumar(scanner);
+        inchiriere.setIdCititor(cititorStr);
 
         System.out.print("ID carte (" + inchiriere.getIdCarte() + "): ");
-        String carteStr = scanner.nextLine();
-        if (!carteStr.isEmpty()) {
-            inchiriere.setIdCarte(Integer.parseInt(carteStr));
-        }
+        int carteStr = citesteNumar(scanner);
+        inchiriere.setIdCarte(carteStr);
 
         System.out.print("Data inchiriere (" + inchiriere.getDataInchiriere() + "): ");
-        String dataInchiriere = scanner.nextLine();
-        if (!dataInchiriere.isEmpty()) {
-            inchiriere.setDataInchiriere(dataInchiriere);
-        }
+        String dataInchiriere = citesteData(scanner);
+        inchiriere.setDataInchiriere(dataInchiriere);
 
         System.out.print("Data returnare (" + inchiriere.getDataReturnare() + "): ");
-        String dataReturnare = scanner.nextLine();
-        if (!dataReturnare.isEmpty()) {
-            inchiriere.setDataReturnare(dataReturnare);
-        }
+        String dataReturnare = citesteData(scanner);
+        inchiriere.setDataReturnare(dataReturnare);
 
         System.out.print("Returnata (" + inchiriere.isReturnata() + "): ");
         String returnataStr = scanner.nextLine();
-        if (!returnataStr.isEmpty()) {
-            inchiriere.setReturnata(Boolean.parseBoolean(returnataStr));
+        while(true) {
+            try {
+                inchiriere.setReturnata(Boolean.parseBoolean(returnataStr));
+                break;
+            } catch(Exception e) {
+                System.out.println("Valoare invalida! Reintroduceti informatia: ");
+            }
         }
 
         System.out.println("Inchiriere actualizata cu succes!");
@@ -1690,28 +1669,24 @@ class SistemTrolleybooks {
         }
 
         System.out.println("Date curente: " + cumparare);
-        System.out.println("Introduceti noile date (lasati gol pentru a pastra valoarea curenta):");
+        System.out.println("Introduceti noile date:");
 
         System.out.print("ID cititor (" + cumparare.getIdCititor() + "): ");
-        String cititorStr = scanner.nextLine();
-        if (!cititorStr.isEmpty()) {
-            cumparare.setIdCititor(Integer.parseInt(cititorStr));
-        }
+        int cititorStr = citesteNumar(scanner);
+        cumparare.setIdCititor(cititorStr);
 
         System.out.print("ID carte (" + cumparare.getIdCarte() + "): ");
-        String carteStr = scanner.nextLine();
-        if (!carteStr.isEmpty()) {
-            cumparare.setIdCarte(Integer.parseInt(carteStr));
-        }
+        int carteStr = citesteNumar(scanner);
+        cumparare.setIdCarte(carteStr);
 
         System.out.print("Data cumparare (" + cumparare.getDataCumparare() + "): ");
-        String dataCumparare = scanner.nextLine();
+        String dataCumparare = citesteData(scanner);
         if (!dataCumparare.isEmpty()) {
             cumparare.setDataCumparare(dataCumparare);
         }
 
         System.out.print("Pret platit (" + cumparare.getPretPlatit() + "): ");
-        String pretStr = scanner.nextLine();
+        String pretStr = citesteData(scanner);
         if (!pretStr.isEmpty()) {
             cumparare.setPretPlatit(Double.parseDouble(pretStr));
         }

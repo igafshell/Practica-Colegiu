@@ -1,23 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1d03187-4d26-4db2-befb-cad79366330f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/Angajat.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Sarcina 2/Angajat.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/Carte.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Sarcina 2/Carte.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/Catalog.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Sarcina 2/Catalog.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/Cititor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Sarcina 2/Cititor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/Cumparare.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Sarcina 2/Cumparare.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/Inchiriere.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Sarcina 2/Inchiriere.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/OperatiiCarte.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Sarcina 2/OperatiiCarte.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/Persoana.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Sarcina 2/Persoana.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/ProgramTrolleybooks.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/SistemTrolleybooks.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Sarcina 2/SistemTrolleybooks.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Sarcina 2/Trolleybooks.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Sarcina 2/Trolleybooks.class" afterDir="false" />
-    </list>
+    <list default="true" id="d1d03187-4d26-4db2-befb-cad79366330f" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,6 +16,19 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;igafshell&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/igafshell/Practica-Colegiu.git&quot;,
+    &quot;accountId&quot;: &quot;a4aa8ceb-7a03-479e-806c-9e16a29e4fe3&quot;
+  }
+}</component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\php\php.exe" />
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 4
@@ -40,11 +40,16 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Application.TrolleybooksConsola.executor&quot;: &quot;Run&quot;,
     &quot;Application.TrolleybooksUI.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -67,6 +72,8 @@
       <updated>1748522190410</updated>
       <workItem from="1748522192207" duration="296000" />
       <workItem from="1748595794427" duration="2000" />
+      <workItem from="1748595918730" duration="4305000" />
+      <workItem from="1748601492303" duration="137000" />
     </task>
     <servers />
   </component>

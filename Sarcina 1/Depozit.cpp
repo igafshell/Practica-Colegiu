@@ -250,58 +250,74 @@ void maxDreptunghi(vector<vector<int>> depozit)
     int m = depozit[0].size();
 
     int maxArie = 0;
-    int xSus, ySus, xJos, yJos;
+    int xSus = -1, ySus = -1, xJos = -1, yJos = -1;
 
     for (int i = 0; i < n; ++i)
     {
         for (int j = 0; j < m; ++j)
         {
             if (depozit[i][j] == 0)
-            {
-                int x = j;
-                int y = i;
-                while (x < m && depozit[i][x] == 0)
-                    x++;
-                while (y < n && depozit[y][j] == 0)
-                    y++;
+            { // Start from a free cell
+                for (int k = i; k < n; ++k)
+                {
+                    for (int l = j; l < m; ++l)
+                    {
+                        if (depozit[k][l] == 0)
+                        { // Potential bottom-right corner
+                            // Check if the entire perimeter is 0
+                            bool valid = true;
 
-                // Verificăm dacă zona are doar 0 pe perimetru
-                bool valid = true;
-                for (int k = j; k < x; ++k)
-                {
-                    if (depozit[i][k] != 0 || depozit[y - 1][k] != 0)
-                    {
-                        valid = false;
-                        break;
-                    }
-                }
-                for (int k = i; k < y; ++k)
-                {
-                    if (depozit[k][j] != 0 || depozit[k][x - 1] != 0)
-                    {
-                        valid = false;
-                        break;
-                    }
-                }
+                            // Check top and bottom borders (rows i and k, columns j to l)
+                            for (int col = j; col <= l; ++col)
+                            {
+                                if (depozit[i][col] != 0 || depozit[k][col] != 0)
+                                {
+                                    valid = false;
+                                    break;
+                                }
+                            }
+                            if (!valid)
+                                continue;
 
-                if (valid)
-                {
-                    int arie = (x - j) * (y - i);
-                    if (arie > maxArie)
-                    {
-                        maxArie = arie;
-                        xSus = j;
-                        ySus = i;
-                        xJos = x;
-                        yJos = y;
+                            // Check left and right borders (columns j and l, rows i to k)
+                            for (int row = i; row <= k; ++row)
+                            {
+                                if (depozit[row][j] != 0 || depozit[row][l] != 0)
+                                {
+                                    valid = false;
+                                    break;
+                                }
+                            }
+                            if (!valid)
+                                continue;
+
+                            // If we're here, the perimeter is valid
+                            int arie = (k - i + 1) * (l - j + 1);
+                            if (arie > maxArie)
+                            {
+                                maxArie = arie;
+                                xSus = i;
+                                ySus = j;
+                                xJos = k;
+                                yJos = l;
+                            }
+                        }
                     }
                 }
             }
         }
     }
 
-    std::cout << "Aria maximă: " << maxArie << std::endl;
-    std::cout << "Coordonatele punctelor: (" << xSus+1 << ", " << ySus+1 << "), (" << xJos << ", " << yJos << ")" << std::endl;
+    if (maxArie == 0)
+    {
+        cout << "Nu exista un dreptunghi cu perimetrul liber." << endl;
+    }
+    else
+    {
+        cout << "Dreptunghiul cu aria maxima (" << maxArie << ") are coordonatele:" << endl;
+        cout << "Coltul stanga-sus: (" << xSus + 1 << ", " << ySus + 1 << ")" << endl;
+        cout << "Coltul dreapta-jos: (" << xJos + 1 << ", " << yJos + 1 << ")" << endl;
+    }
 }
 
 vector<vector<int>> bfs(vector<vector<int>> &depozit, int a, int b, int c, int d)
