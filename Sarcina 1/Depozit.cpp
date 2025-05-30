@@ -480,7 +480,6 @@ int main() {
         }
         cout << "Apasati enter pentru a continua..." << endl;
         getchar();
-        getchar();
         system("cls");
     }
 

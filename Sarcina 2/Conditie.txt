@@ -1,0 +1,27 @@
+Sarcina 2: Scrieți un program Java care modelează următoarea activitate:
+Creați un produs program pentru evidența activității a unui Trolleybooks - troleibuzul lecturii.
+Trolleybooks-ul oferă cititorilor cărți și primește aceste cărți inapoi de la cititori. Sunt mai multe rute de
+troleybook in diferite sectoare ale oraului. Flecare trolleybooks este caracterizată prin denumirea, rută, șofer,
+bibliotecar, capacitatea de cărți (numărul de bucăți) etc.
+Evidența cărților este ținută conform cataloagelor tematice. Un catalog conține tematici dintr-un domeniu (de ex.literatura artistică, științe, Informatică, ș.a.).
+Programul trebuie sã asigure evidența cărților oferite cititorilor și a celor din trolleybooks, date despre persoanele, care nu sunt returnat cărțile până la o anumită stație, despre cele mai des închiriate, cărțile care au fost cumpărate
+Programul va conține informații despre cărți (codul cărții, denumirea, autorul, editura, localitatea editurii, anul ediției, numărul de pagini, prețul), numărul de exemplare, prețul de închiriere, despre cititori (numărul carnetului de cititor, nume, data nașteril, telefonul, cartea).
+Produsul program va ține cont de că un cititor poate lua in chirie o carte, insă poate procura mai multe, prețul depinde dacă cartea este nouă sau a fost lecturată, in acest caz prețul scade cu 1% la fiecare număr de lecturi, va calcula venitul trolleybooks-ului din vânzāri si închirieri, numărul de exemplare ce trebuie suplinite ș.a ..
+Cerințe față de sarcină: Implementați concepte ale POO
+· Creați clase având ca metode (funcții) citirea și afișarea fiecărui câmp (set-teri și get- teri), precum și o metodă
+care calculează o valoare nouă a unui sau a mai multor câmpuri (ca exemplu, de convertit prețul din lei în
+EURO sau de calculat durata deplasării). Adăugați cel puțin trei tipuri de constructori (unul trebuie să fie fāră
+parametri, aitul- cu toți parametrii indicați, iar al treilea-cu doar câțiva parametri indicați, în dependență de
+temā, in ultimul caz unele câmpuri ar putea avea valori egale sau careva valori standarde).
+· Clase care moștenesc câmpurile și metodele clasei părinte vor avea proprietăți proprii, creând și constructorii
+respectivi (care să corespundă constructorilor clasei de bază). Folosiți relațiile de asociere și agregare între
+obiecte (acolo unde este cazul).
+Creați o clasă abstractă și o interfață, care are cel puțin o metodă abstractă, apoi le utilizează in procesul de
+moștenire și o realizează pe deplin. Fiecare clasă trebuie să conțină constructori supraîncărcați, metoda
+toString() supradefinită
+Prelucrați diferite tipuri de excepție (atunci când avem împărțire la zero, radical din număr negativ, când
+incercăm sã accesăm un element inexistent al unui tablou, atunci când in loc de număr utilizatorul introduce
+litere, atunci când incercăm să apelăm o metodă a unui obiect care are referință nulă etc.) O metodă care generează excepție proprie.
+· Inscrieți obiectele într-o listă, minim 20 de înregistrări. Se va utiliza lista și la afișarea pe ecran.
+· Programul să conțină un meniu minimalizat.
+· Adăugați clase și / sau membri sau metode la clasele dacă se consideră necesar,
